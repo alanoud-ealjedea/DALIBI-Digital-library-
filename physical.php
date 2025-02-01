@@ -35,9 +35,9 @@ $records = mysqli_query($con,"select * from physical_resources");
               <h4><a href=""><?= $data['name'] ?></a></h4>
               <p style="max-height: 75px;overflow-y: hidden;"><?= $data['description'] ?></p>
               <hr>
-              <form action="../backend/add_resource.php" method="post">
+              <form action="../backend/book_resource.php" method="post">
                   <input type="hidden" name="id" value="<?= $data['id'] ?>">
-                  <button class="btn btn-danger btn-sm" type="submit" name="delete_resource">Delete Resource</button>
+                  <button class="btn btn-primary btn-sm" type="submit" name="book_resource" <?php if($data['status']==1){ ?> disabled <?php } ?> >Book Resource</button>
               </form>
             </div>
           </div>

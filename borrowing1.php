@@ -5,16 +5,18 @@ session_start();
 require_once('header.php');
 include_once("../backend/db.php");
 $user_id = $_SESSION['email'];
-$records = mysqli_query($con,"select b.*, bb.added_date from books b, borrow bb where bb.status=1 and b.id=bb.book_id and bb.user_id='$user_id'");
+$records = mysqli_query($con,"select pr.*, pb.added_date from physical_resources pr, physical_borrow pb where pr.id=pb.resource_id and pb.user_id='$user_id'");
 
 if(isset($_POST['return'])) 
 {
   $id = $_POST['id'];
 
-  $sql = "delete from borrow where book_id='$id'";
+  $sql = "delete from physical_borrow where resource_id='$id'";
   mysqli_query($con, $sql) or die("database error:". mysqli_error($con)."qqq".$sql);
   
-  echo '<script type="text/javascript"> alert("Returned Successfully!"); window.location.href="borrowing.php";</script>';  // alert message
+  $sql1 = "UPDATE physical_resources set `status`=0 where `id`='$id'";
+  mysqli_query($con, $sql1) or die("database error:". mysqli_error($con)."qqq".$sql1);
+  echo '<script type="text/javascript"> alert("Returned Successfully!"); window.location.href="borrowing1.php";</script>';  // alert message
 }
 ?>
 
@@ -169,18 +171,18 @@ if(isset($_POST['return']))
 </style>
 
 <div class="container cards">
-    <h1 class="text-center">Borrowing Books</h1>
+    <h1 class="text-center">Borrowing Physical Resources</h1>
     <hr>
 	<!--Start table-->
     <div class='main-table-containter'>
         <div class='title-table-container'>
-            <div class='subtitle'>Books</div>
+            <div class='subtitle'>Physical Resources</div>
         </div>
         <div>
             <table>
             <tbody>
                 <tr style="font-weight:bolder">
-                    <td>Book Name</td>
+                    <td>Resource Name</td>
                     <td>Borrow Date</td>
                     <td>Actions</td>
                 </tr>
@@ -192,9 +194,9 @@ if(isset($_POST['return']))
                     <td><div><?= $data['name'] ?></div></td>
                     <td><div><?= $data['added_date'] ?></div></td>
                     <td>
-                        <form action="borrowing.php" method="post">
+                        <form action="borrowing1.php" method="post">
                             <input type="hidden" name="id" value="<?= $data['id'] ?>">
-                            <button class='pendiente' type="submit" name="return">Return Book</button>
+                            <button class='pendiente' type="submit" name="return">Return Resource</button>
                         </form>
                     </td>
                 </tr>
