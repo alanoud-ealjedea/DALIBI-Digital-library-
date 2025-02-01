@@ -5,6 +5,13 @@ require_once('header.php');
 include_once("../backend/db.php");
 
 $records = mysqli_query($con,"select * from books");
+if(isset($_POST['delete_book'])) 
+{
+  $id = $_POST['id'];
+  $sql = "delete from books where id='$id'";
+  mysqli_query($con, $sql) or die("database error:". mysqli_error($con)."qqq".$sql);	
+  echo '<script type="text/javascript"> alert("Deleted Successfully!"); window.location.href="books.php";</script>';  // alert message
+}
 ?>
 <style>
   .fixed-top{
@@ -30,16 +37,13 @@ $records = mysqli_query($con,"select * from books");
           <div class="col-lg-4 col-md-6 portfolio-item">
             <div class="portfolio-img" style="height:500px;"><img src="../books_cover/<?= $data['id'] ?>/<?= $data['image'] ?>" class="img-fluid" alt="" style="height:100%;"></div>
             <div class="portfolio-info">
-              <h4><a href="book_details.php?id=<?= $data['id'] ?>"><?= $data['name'] ?></a></h4>
+              <h4><?= $data['name'] ?></h4>
               <p><?= $data['category'] ?></p>
-              <a href="../books_cover/<?= $data['id'] ?>/<?= $data['image'] ?>" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="<?= $data['name'] ?>"><i class="bx bx-plus"></i></a>
-              <br>
-              <form action="../backend/book_book.php" method="post">
-                  <input type="hidden" name="id" value="<?= $data['id'] ?>">
-                  <button class="btn btn-primary btn-sm" type="submit" name="book_book" <?php if($data['status']==1){ ?> disabled <?php } ?> ><i class="bx bx-book"></i> Book Resource</button>
-              </form>
+			  <form action="books.php" method="post">
+			  	<input type="hidden" name="id" value="<?= $data['id'] ?>">
+			  	<button class="btn btn-danger" type="submit" name="delete_book">Delete Book</button>
+			  </form>
             </div>
-            
           </div>
 		<?php } ?>
         </div>

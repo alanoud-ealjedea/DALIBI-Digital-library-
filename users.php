@@ -4,13 +4,13 @@ session_start();
 require_once('header.php');
 include_once("../backend/db.php");
 
-$records = mysqli_query($con,"select * from users where type=2");
+$records = mysqli_query($con,"select * from users where type=1");
 if(isset($_POST['delete'])) 
 {
   $id = $_POST['id'];
   $sql = "delete from users where id='$id'";
   mysqli_query($con, $sql) or die("database error:". mysqli_error($con)."qqq".$sql);	
-  echo '<script type="text/javascript"> alert("Deleted Successfully!"); window.location.href="librarians.php";</script>';  // alert message
+  echo '<script type="text/javascript"> alert("Deleted Successfully!"); window.location.href="users.php";</script>';  // alert message
 }
 ?>
 <link rel="stylesheet" href="css/style.css">
@@ -21,7 +21,7 @@ if(isset($_POST['delete']))
     background-color:#F6F6F4;
     width:100%;
     
-        padding: 1rem 1rem;
+    padding: 1rem 1rem;
     box-shadow: 0px 2px 5px 0px #00000033;
     }
 
@@ -167,20 +167,20 @@ if(isset($_POST['delete']))
 </style>
 
 <div class="container cards">
-    <h1 class="text-center">Librarians Info</h1>
+    <h1 class="text-center">Users Info</h1>
     <hr>
 	<!--Start table-->
     <div class='main-table-containter'>
         <div class='title-table-container'>
-            <div class='subtitle'>Librarians</div>
+            <div class='subtitle'>Users</div>
         </div>
         <div>
             <table>
             <tbody>
                 <tr style="font-weight:bolder">
-                    <td><div>Librarian Name</div></td>
-                    <td>Librarian Email</td>
-                    <td>Librarian Phone</td>
+                    <td><div>User Name</div></td>
+                    <td>User Email</td>
+                    <td>User Phone</td>
                     <td>Actions</td>
                 </tr>
                 <?php
@@ -192,7 +192,7 @@ if(isset($_POST['delete']))
                     <td> <?= $data['email'] ?></td>
                     <td> <?= $data['phone'] ?></td>
                     <td>
-                        <form action="librarians.php" method="post">
+                        <form action="users.php" method="post">
                             <input type="hidden" name="id" value="<?= $data['id'] ?>">
                             <button class='pendiente' type="submit" name="delete">Delete</button>
                         </form>

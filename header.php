@@ -42,15 +42,10 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="index.php">Home</a></li>
+          <li><a class="nav-link scrollto" href="add_librarian.php">Add Librarian</a></li>
           <li><a class="nav-link scrollto" href="books.php">Books</a></li>
-          <li><a class="nav-link scrollto" href="physical.php">Resources</a></li>
-          <li><a class="nav-link scrollto" href="borrowing.php">Borrowed Books</a></li>
-          <li><a class="nav-link scrollto" href="borrowing1.php">Borrowed Resources</a></li>
-          <li>
-            <form action="search.php" method="post">
-              <input type="text" name="word" class="form-control m-3" placeholder="Search Books">
-            </form>
-          </li>
+          <li><a class="nav-link scrollto" href="librarians.php">Librarians</a></li>
+          <li><a class="nav-link scrollto" href="users.php">Users</a></li>
           <li><a class="getstarted scrollto" href="../backend/logout.php">Logout</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
