@@ -1,65 +1,124 @@
 <?php
-require_once('header.php');
-?>
-<style>
-  .fixed-top{
-    background-color: #37517e!important;
-  }
-  .contact{
-    margin-top: 5%;
-  }
-</style>
-<!-- ======= Contact Section ======= -->
-<section id="contact" class="contact">
-      <div class="container" data-aos="fade-up">
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-        <div class="section-title">
-          <h2>Add Book</h2>
-        </div>
+include_once("./db.php");
 
-        <div class="row">
+if(isset($_POST['add_book'])) {
 
-          <div class="col-lg-12 mt-5 mt-lg-0 d-flex align-items-stretch">
-            <form action="../backend/add_book.php" method="post" enctype="multipart/form-data" role="form" class="php-email-form">
-              <div class="row">
-                <div class="form-group col-md-4">
-                  <label for="name">Book Name</label>
-                  <input type="text" name="book_name" class="form-control" id="name" required>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="name">Book Category</label>
-                  <input type="text" class="form-control" name="category" id="name" required>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="name">Books Count</label>
-                  <input type="text" class="form-control" name="count" id="subject" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="name">Book Description</label>
-                <input type="text" class="form-control" name="description" id="subject" required>
-              </div>
-              
-              <div class="row">
-                <div class="form-group col-md-6">
-                  <label for="name">Book Cover</label>
-                  <input type="file" class="form-control" name="cover" id="subject" required>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="name">Book File</label>
-                  <input type="file" class="form-control" name="file" id="subject" required>
-                </div>
-              </div>
-              <div class="text-center"><button type="submit" name="add_book">Add Book</button></div>
-            </form>
-          </div>
+    $book_name = $_POST['book_name'];
+    $category = $_POST['category'];
+    $description = $_POST['description'];
+    $count = $_POST['count'];
 
-        </div>
+    $cover = $_FILES["cover"]["name"];
+    $covertmp1 = $_FILES['cover']['tmp_name'];
 
-      </div>
-</section>
-<!-- End Contact Section -->
+    $file = $_FILES["file"]["name"];
+    $filetmp1 = $_FILES["file"]["tmp_name"];
 
-<?php
-require_once('footer.php');
+
+    $sql = "SELECT * FROM books WHERE `name`='$book_name'";
+    $resultset = mysqli_query($con, $sql) or die("database error:". mysqli_error($con));
+    $row = mysqli_fetch_assoc($resultset);
+
+    if(!$row['name']){	
+        $sql = "INSERT INTO 
+        books(`name`,`category`, `description`, `image`, `file`, `count_books`) VALUES ('$book_name', '$category', '$description', '$cover', '$file', '$count')";
+        mysqli_query($con, $sql) or die("database error:". mysqli_error($con)."qqq".$sql);
+        $last_id = $con->insert_id;
+
+        if (!file_exists('../books_cover/' . $last_id)) {
+            mkdir('../books_cover/'. $last_id, 0777, true);
+        }
+        $dstcover = '../books_cover/' . $last_id . '/' . $cover;
+
+        //
+        if (!file_exists('../books_file/' . $last_id)) {
+            mkdir('../books_file/'. $last_id, 0777, true);
+        }
+        $dstfile = '../books_file/' . $last_id . '/' . $file;
+
+        move_uploaded_file($covertmp1, $dstcover);
+        move_uploaded_file($filetmp1, $dstfile);
+
+
+        echo '<script type="text/javascript"> alert("Book uploaded successfully!"); window.location.href="../librarian/index.php";</script>';  // alert message
+    }
+    else {				
+        echo "<script>
+            alert('The book is exist before!!');
+            window.location.href='../librarian/add_book.php';
+            </script>";
+
+    }
+
+  
+}
+
+//
+if(isset($_POST['edit_book'])) {
+
+    $id = $_POST['id'];
+    $book_name = $_POST['book_name'];
+    $category = $_POST['category'];
+    $description = $_POST['description'];
+    $count = $_POST['count'];
+
+    $cover = $_FILES["cover"]["name"];
+    $covertmp1 = $_FILES['cover']['tmp_name'];
+
+    $file = $_FILES["file"]["name"];
+    $filetmp1 = $_FILES["file"]["tmp_name"];
+
+
+    $old_cover = false;
+    $old_file = false;
+
+    $sql = "SELECT * FROM books WHERE `id`='$id'";
+    $resultset = mysqli_query($con, $sql) or die("database error:". mysqli_error($con));
+    $row = mysqli_fetch_assoc($resultset);
+
+    if($cover == '')
+    { 
+        $cover = $row['image'];
+        $old_cover = true;
+     }
+    if($file == '')
+    { 
+        $file = $row['file'];
+        $old_file = true;
+     }
+
+    $sql = "update books set name='$book_name', category='$category', description='$description', image='$cover', file='$file', count_books='$count' where id='$id'";
+    mysqli_query($con, $sql) or die("database error:". mysqli_error($con)."qqq".$sql);
+    $last_id = $con->insert_id;
+
+    if($old_cover == false)
+    {
+        $dstcover = '../books_cover/' . $last_id . '/' . $cover;
+        move_uploaded_file($covertmp1, $dstcover);
+    }
+    if($old_file == false)
+    {
+        $dstfile = '../books_file/' . $last_id . '/' . $file;
+        move_uploaded_file($filetmp1, $dstfile);
+    }
+
+    echo '<script type="text/javascript"> alert("Book updated successfully!"); window.location.href="../librarian/index.php";</script>';  // alert message
+}
+
+//
+if(isset($_POST['delete_book'])) {
+
+    $id = $_POST['id'];
+
+
+    $sql = "delete from books where id='$id'";
+    mysqli_query($con, $sql) or die("database error:". mysqli_error($con)."qqq".$sql);
+
+    echo '<script type="text/javascript"> alert("Book deleted successfully!"); window.location.href="../librarian/index.php";</script>';  // alert message
+}
+
+
 ?>
