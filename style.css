@@ -1,108 +1,87 @@
-* {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+body{
+     background-color: #f5f5f8;
+}
 
-  .reg_btn{
-    background-color: #0c0015!important;
-    padding: 10px;
+
+.bar{
+     margin:0 auto;
+     margin-top: 5%;
+     width:450px;
+     border-radius:30px;
+     border:1px solid #dcdcdc;
+   }
+   .bar1{
+    margin:0 auto;
+    margin-top: 5%;
+  }
+   .bar:hover{
+     box-shadow: 1px 1px 8px 1px #dcdcdc;
+   }
+   .bar:focus-within{
+     box-shadow: 1px 1px 8px 1px #dcdcdc;
+     outline:none;
+   }
+   .searchbar{
+     height:45px;
+     border:none;
+     width:450px;
+     font-size:16px;
+     outline: none;
+     border-radius: 20px;
+   }
+   .searchbar::placeholder{
+     padding-left: 25px;
+     font-size: 18px;
+   }
+   .voice{
+     height: 20px;
+     position: relative;
+     top: 1px;
+     right: 30px;
+   }
+   .search{
+     height: 20px;
+     position: relative;
+     top: 1px;
+     left: 35px;
+   }
+
+   .find{
+    position: absolute;
+    right: 21%;
+    margin-top: 5%;
+    padding: 9px;
+    color: white;
+    background-color: #000;
+    font-size: 17px;
+    width: 150px;
     border-radius: 35px;
-    color: white!important;
-    font-weight: bold;
-    display: block;
-    text-align: center;
-    width: 220px;
-  }
-.first{
-  background-color: #f5f5f8;
-}
-.first_cover{
-  width: 430px;
-  margin-top: 170px;
-}
-.first .links{
-  position: absolute;
-  right: 25%;
-  top: 33%;
-}
+   }
 
-.first .links a{
-  background-color: black;
-  padding: 10px;
-  border-radius: 35px;
-  color: white;
-  font-weight: bold;
-  display: block;
-  text-align: center;
-  font-size: 20px;
-  margin: 16px;
-}
-.first .links a:nth-child(1)
-{width: 330px;}
-.first .links a:nth-child(2)
-{width: 330px;}
-.first .links a:nth-child(3)
-{width: 330px;}
-.first .links a i{
-  padding: 10px;
-  margin-left: 15%;
-  background-color: #13072e;
-  border-radius: 50px;
-}
+   .cards{
+     margin-top: 5%;
+   }
+   .card{
+      min-height: 220px;
+     text-align: left;
+     padding: 15px;
+     background-color: #fff;
+     color: #000;
+     border: 2px solid purple;
+     border-radius: 20px;
+     margin-bottom: 20px;
+   }
 
-.signup{
-  background-color: #f5f5f8;
-}
+   .card img{
+    height: 300px;
+    width: 100%;
+   }
 
-.signup .signup_image{
-  width: 500px;
-  bottom: 0;
-  position: absolute;
-  left: 0px;
-}
-
-.form_signup{
-  position: absolute;
-  top: 20%;
-  right: 15%;
-  padding-bottom: 50px;
-}
-
-.form_signup label{
-  font-weight: bolder;
-  color: black;
-  font-size: 18px;
-}
-
-.input_form{
-  display: block;
-  width: 500px;
-  border-radius: 20px;
-  padding: 6px;
-}
-
-.btn_signup{
-  margin-left: 25%;
-  margin-top: 4%;
-  padding: 5px;
-  width: 55%;
-  border-radius: 30px;
-  background-color: black;
-  color: white;
-  font-weight: bolder;
-  font-size: 19px;
-  margin-bottom: 3%;
-}
-
-.form_signup span{
-  margin-left: 35%;
-  font-size: 15px;
-  color:black;
-  font-weight: 800;
-}
-
-.form_signup span a{
-  text-decoration: underline!important;
-}
+   .card .regster{
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    position: relative;
+    left: 19%;
+   }
